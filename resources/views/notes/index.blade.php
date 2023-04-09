@@ -14,7 +14,7 @@
             @forelse ($notes as $note)
                 <div class="mb-6 p-6 shadow-sm sm:rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
                     <h2 class="font-bold text-2xl">
-                        {{ $note->title }}
+                        <a href="{{ route('notes.show', $note->id )}}">{{ $note->title }}</a>
                     </h2>
                     <p class="mt-2">
                         {{ Str::limit($note->content, 255) }}
