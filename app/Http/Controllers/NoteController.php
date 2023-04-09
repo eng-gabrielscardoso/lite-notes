@@ -61,9 +61,11 @@ class NoteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Note $note)
     {
-        $note = Note::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+        if ($note->user_id != Auth::id()) {
+            return abort(403, "You are not allowed to access the specified note.");
+        }
 
         return view('notes.show')->with('note', $note);
     }

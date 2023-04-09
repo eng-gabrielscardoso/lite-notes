@@ -20,4 +20,9 @@ class Note extends Model
         'title',
         'content',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'public_id';
+    }
 }
