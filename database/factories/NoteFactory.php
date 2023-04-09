@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Note>
@@ -18,6 +19,7 @@ class NoteFactory extends Factory
     public function definition(): array
     {
         return [
+            'public_id' => Uuid::uuid4()->toString(),
             'user_id' => User::pluck('id')->random(),
             'title' => fake()->sentence(),
             'content' => fake()->paragraph(1),
