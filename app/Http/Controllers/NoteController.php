@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class NoteController extends Controller
@@ -41,6 +42,7 @@ class NoteController extends Controller
             DB::beginTransaction();
 
             $note = Note::create([
+                'public_id' => Str::uuid(),
                 'user_id' => Auth::id(),
                 'title' => $request->title,
                 'content' => $request->content,
