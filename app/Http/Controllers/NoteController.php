@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +24,7 @@ class NoteController extends Controller
      */
     public function create()
     {
-        //
+        return view('notes.create');
     }
 
     /**
@@ -31,7 +32,28 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:120',
+            'content' => 'required|string',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $note = Note::create([
+                'user_id' => Auth::id(),
+                'title' => $request->title,
+                'content' => $request->content,
+            ]);
+
+            DB::commit();
+
+            return to_route('notes.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
     }
 
     /**

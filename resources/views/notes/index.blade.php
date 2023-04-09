@@ -7,6 +7,10 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <a href="{{ route('notes.create') }}" class="btn btn-lg mb-6">
+                New note
+            </a>
+
             @forelse ($notes as $note)
                 <div class="mb-6 p-6 shadow-sm sm:rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
                     <h2 class="font-bold text-2xl">
