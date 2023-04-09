@@ -19,7 +19,7 @@
                 <h2 class="font-bold text-3xl">
                     {{ $note->title }}
                 </h2>
-                <p class="mt-6 whitespace-nowrap">
+                <p class="whitespace-pre-line">
                     {{ $note->content }}
                 </p>
             </div>
