@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ request()->routeIs('notes.index') ? __('Notes') : __('Trash') }}
+            {{ request()->routeIs('notes.show') ? __('Notes') : __('Trash') }}
         </h2>
     </x-slot>
 
@@ -33,10 +33,14 @@
                     <p>
                         <strong>Deleted at: </strong> {{ $note->deleted_at->diffForHumans() }}
                     </p>
-                    {{-- <a href="{{ route('notes.edit', $note) }}" class="btn ml-auto">
-                        Edit note
-                    </a>
-                    <form action="{{ route('notes.destroy', $note) }}" method="post">
+                    <form action="{{ route('trash.update', $note)}}" method="post" class="ml-auto">
+                        @method('put')
+                        @csrf
+
+                        <button type="submit" class="btn"
+                            onclick="return confirm('Have you really want to restore this note?')">Restore note</button>
+                    </form>
+                    {{-- <form action="{{ route('notes.destroy', $note) }}" method="post">
                         @method('delete')
                         @csrf
 
