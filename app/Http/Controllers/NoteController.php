@@ -123,8 +123,22 @@ class NoteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Note $note)
     {
-        //
+        if ($note->user_id != Auth::id()) {
+            return abort(403, 'You are not allowed to access the specified note.');
+        }
+
+        try {
+            DB::transaction(function () use ($note) {
+                $note->delete();
+            });
+
+            return to_route('notes.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
     }
 }
