@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -138,7 +139,7 @@ class NoteController extends Controller
                 $note->delete();
             });
 
-            return to_route('notes.index')->with('success', 'Note deleted successfully');
+            return to_route('notes.index')->with('success', 'Note successfully moved to trash');
         } catch (\Exception $e) {
             DB::rollBack();
 

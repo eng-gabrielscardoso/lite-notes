@@ -15,6 +15,9 @@
                     <x-nav-link :href="route('notes.index')" :active="request()->routeIs('notes')">
                         {{ __('Notes') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('trash.index')" :active="request()->routeIs('trash')">
+                        {{ __('Trash') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -68,7 +71,10 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('notes.index')" :active="request()->routeIs('notes')">
-                {{ __('notes') }}
+                {{ __('Notes') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('trash.index')" :active="request()->routeIs('trash')">
+                {{ __('Trash') }}
             </x-responsive-nav-link>
         </div>
 

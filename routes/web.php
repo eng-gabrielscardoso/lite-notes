@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TrashedNoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('/notes', NoteController::class);
+
+    Route::get('/trash', [TrashedNoteController::class, 'index'])->name('trash.index');
+    Route::get('/trash/{note}', [TrashedNoteController::class, 'show'])->withTrashed()->name('trash.show');
 });
 
 require __DIR__.'/auth.php';

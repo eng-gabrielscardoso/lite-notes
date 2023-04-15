@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Notes') }}
+            {{ request()->routeIs('notes.index') ? __('Notes') : __('Trash') }}
         </h2>
     </x-slot>
 
@@ -11,21 +11,40 @@
                 {{ session('success') }}
             </x-success-badge>
             <div class="flex mb-6 text-gray-800 dark:text-gray-200">
-                <p>
-                    <strong>Created at: </strong> {{ $note->created_at->diffForHumans() }}
-                </p>
-                <p class="ml-4">
-                    <strong>Last update: </strong> {{ $note->updated_at->diffForHumans() }}
-                </p>
-                <a href="{{ route('notes.edit', $note) }}" class="btn ml-auto">
-                    Edit note
-                </a>
-                <form action="{{ route('notes.destroy', $note) }}" method="post">
-                    @method('delete')
-                    @csrf
+                @if (!$note->trashed())
+                    <p>
+                        <strong>Created at: </strong> {{ $note->created_at->diffForHumans() }}
+                    </p>
+                    <p class="ml-4">
+                        <strong>Last update: </strong> {{ $note->updated_at->diffForHumans() }}
+                    </p>
+                    <a href="{{ route('notes.edit', $note) }}" class="btn ml-auto">
+                        Edit note
+                    </a>
+                    <form action="{{ route('notes.destroy', $note) }}" method="post">
+                        @method('delete')
+                        @csrf
 
-                    <button type="submit" class="btn btn-danger ml-4" onclick="return confirm('Have you really want to delete this note?')">Delete note</button>
-                </form>
+                        <button type="submit" class="btn btn-danger ml-4"
+                            onclick="return confirm('Have you really want to move this note to trash?')">Move to
+                            trash</button>
+                    </form>
+                @else
+                    <p>
+                        <strong>Deleted at: </strong> {{ $note->deleted_at->diffForHumans() }}
+                    </p>
+                    {{-- <a href="{{ route('notes.edit', $note) }}" class="btn ml-auto">
+                        Edit note
+                    </a>
+                    <form action="{{ route('notes.destroy', $note) }}" method="post">
+                        @method('delete')
+                        @csrf
+
+                        <button type="submit" class="btn btn-danger ml-4"
+                            onclick="return confirm('Have you really want to move this note to trash?')">Move to
+                            trash</button>
+                    </form> --}}
+                @endif
             </div>
             <div class="mb-6 p-6 shadow-sm sm:rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
                 <h2 class="font-bold text-3xl">
