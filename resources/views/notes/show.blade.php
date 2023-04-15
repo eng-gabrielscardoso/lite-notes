@@ -14,6 +14,9 @@
                 <p class="ml-4">
                     <strong>Last update: </strong> {{ $note->updated_at->diffForHumans() }}
                 </p>
+                <a href="{{ route('notes.edit', $note) }}" class="btn btn-lg ml-auto">
+                    Edit note
+                </a>
             </div>
             <div class="mb-6 p-6 shadow-sm sm:rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">
                 <h2 class="font-bold text-3xl">
