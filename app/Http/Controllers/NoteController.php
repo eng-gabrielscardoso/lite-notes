@@ -16,7 +16,11 @@ class NoteController extends Controller
      */
     public function index()
     {
-        $notes = Note::where('user_id', Auth::id())->latest('updated_at')->paginate(5);
+        // $notes = Note::where('user_id', Auth::id())->latest('updated_at')->paginate(5);
+
+        // $notes = Auth::user()->notes()->latest('updated_at')->paginate(6);
+
+        $notes = Note::whereBelongsTo(Auth::user())->latest('updated_at')->paginate(6);
 
         return view('notes.index')->with('notes', $notes);
     }
@@ -42,7 +46,7 @@ class NoteController extends Controller
         try {
             DB::beginTransaction();
 
-            $note = Note::create([
+            Auth::user()->notes()->create([
                 'public_id' => Str::uuid(),
                 'user_id' => Auth::id(),
                 'title' => $request->title,
@@ -64,7 +68,7 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
-        if ($note->user_id != Auth::id()) {
+        if (! $note->user->is(Auth::user())) {
             return abort(403, 'You are not allowed to access the specified note.');
         }
 
@@ -76,7 +80,7 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
-        if ($note->user_id != Auth::id()) {
+        if (! $note->user->is(Auth::user())) {
             return abort(403, 'You are not allowed to access the specified note.');
         }
 
@@ -88,7 +92,7 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        if ($note->user_id != Auth::id()) {
+        if (! $note->user->is(Auth::user())) {
             return abort(403, 'You are not allowed to access the specified note.');
         }
 
@@ -125,7 +129,7 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        if ($note->user_id != Auth::id()) {
+        if (! $note->user->is(Auth::user())) {
             return abort(403, 'You are not allowed to access the specified note.');
         }
 
