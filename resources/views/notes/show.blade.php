@@ -40,14 +40,13 @@
                         <button type="submit" class="btn"
                             onclick="return confirm('Have you really want to restore this note?')">Restore note</button>
                     </form>
-                    {{-- <form action="{{ route('notes.destroy', $note) }}" method="post">
+                    <form action="{{ route('trash.destroy', $note) }}" method="post">
                         @method('delete')
                         @csrf
 
                         <button type="submit" class="btn btn-danger ml-4"
-                            onclick="return confirm('Have you really want to move this note to trash?')">Move to
-                            trash</button>
-                    </form> --}}
+                            onclick="return confirm('Have you really want to delete this note definitily (irreversible)?')">Delete note</button>
+                    </form>
                 @endif
             </div>
             <div class="mb-6 p-6 shadow-sm sm:rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200">

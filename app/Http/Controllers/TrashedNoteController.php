@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TrashedNoteController extends Controller
 {
@@ -46,6 +45,28 @@ class TrashedNoteController extends Controller
             });
 
             return to_route('notes.show', $note)->with('success', 'Note successfully restored.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Note $note)
+    {
+        if (! $note->user->is(Auth::user())) {
+            return abort(403, 'You are not allowed to access the specified note.');
+        }
+
+        try {
+            DB::transaction(function () use ($note) {
+                $note->forceDelete();
+            });
+
+            return to_route('trash.index')->with('success', 'Note successfully deleted');
         } catch (\Exception $e) {
             DB::rollBack();
 
