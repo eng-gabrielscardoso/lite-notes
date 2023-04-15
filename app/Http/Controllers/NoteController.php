@@ -112,7 +112,7 @@ class NoteController extends Controller
 
             DB::commit();
 
-            return to_route('notes.show', $note);
+            return to_route('notes.show', $note)->with('success', 'Note updated successfully');
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -134,7 +134,7 @@ class NoteController extends Controller
                 $note->delete();
             });
 
-            return to_route('notes.index');
+            return to_route('notes.index')->with('success', 'Note deleted successfully');
         } catch (\Exception $e) {
             DB::rollBack();
 

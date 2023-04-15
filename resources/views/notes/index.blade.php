@@ -7,6 +7,10 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <x-danger-badge>
+                {{ session('success') }}
+            </x-danger-badge>
+
             <a href="{{ route('notes.create') }}" class="btn btn-lg mb-6">
                 New note
             </a>
